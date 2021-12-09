@@ -1,63 +1,125 @@
-import './css/App.css'
-import React, { useState, useEffect } from 'react';
-import TodoList from './components/TodoList'
+import React, { useState, useEffect } from "react";
+import TodoList from "./components/TodoList";
+import { useSelector, useDispatch } from "react-redux";
+import "./css/App.css";
+
+import { addTodo, deleteCompletedTodo } from "./actions/todoList";
+import { Button, Input, notification } from "antd";
+import { Content } from "antd/lib/layout/layout";
+
 function App() {
-  const [input, setInput] = useState('')
-  const [todolist, setTodolist] = useState([])
+  // @ts-ignore
+  const todoList = useSelector((state) => state.todoList.list);
+  const dispatch = useDispatch();
+  const [input, setInput] = useState("");
   useEffect(() => {
-    const storageTodoList = localStorage.getItem('TODO_APP')
+    const storageTodoList = localStorage.getItem("TODO_APP");
     if (storageTodoList) {
-      setTodolist(JSON.parse(storageTodoList))
+      JSON.parse(storageTodoList).forEach((todo) => {
+        const action = addTodo(todo);
+        dispatch(action);
+      });
     }
-  }, [])
+  }, [dispatch]);
 
   useEffect(() => {
-    localStorage.setItem('TODO_APP', JSON.stringify(todolist))
-  }, [todolist])
+    localStorage.setItem("TODO_APP", JSON.stringify(todoList));
+  }, [todoList]);
 
   const handleClick = () => {
-    input && setTodolist(prevState => [...prevState, {name: input, isCompleted: false, id: Math.floor(Math.random() * 1000000)}])
-    setInput('')
-    document.querySelector('.inputField').focus()
-  }
+    const newTodo = {
+      name: input || "",
+      isCompleted: false,
+      id:
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15),
+    };
+    const action = addTodo(newTodo);
+    dispatch(action);
+    openNotification("success", "Successfully added new job");
+    setInput("");
+    // @ts-ignore
+    document.querySelector(".inputField").focus();
+  };
 
   const handlePress = (e) => {
-    if (e.key === 'Enter') {
-      input && setTodolist(prevState => [...prevState, {name: input, isCompleted: false, id: Math.floor(Math.random() * 1000000)}])
-      setInput('')
-      document.querySelector('.inputField').focus()
+    if (e.key === "Enter") {
+      const newTodo = {
+        name: input || "",
+        isCompleted: false,
+        id:
+          Math.random().toString(36).substring(2, 15) +
+          Math.random().toString(36).substring(2, 15),
+      };
+      const action = addTodo(newTodo);
+      dispatch(action);
+      setInput("");
+      // @ts-ignore
+      document.querySelector(".inputField").focus();
     }
-  }
-
-  const checkedFileLeft = (todos = []) => {
-    return todos.filter(item => !item.isCompleted)
-  }
+  };
 
   const clearCheckedTodo = () => {
-    setTodolist(prevState => checkedFileLeft(prevState))
-  }
+    const action = deleteCompletedTodo();
+    dispatch(action);
+    openNotification("success", "Successfully clear");
+  };
 
-  const checkedTodo = (id = 0) => {
-    id && setTodolist(prevState => (prevState.map(todo => todo.id === id ? ({...todo, isCompleted: !todo.isCompleted}) : todo)))
-  }
-
-  const updateTodo = (td = {}) => {
-    td && setTodolist(prevState => (prevState.map(todo => todo.id === td.id ? td : todo)))
-  }
-  
+  const openNotification = (type, content) => {
+    const config = {
+      message: `Notification ${type}`,
+      description: content,
+      duration: 2,
+    };
+    notification[type](config);
+  };
   return (
-    <div className="App">
-      <h1>TODO LIST</h1>
-      <div className="wrapper">
-        <div className="inputText">
-          <input onKeyPress={(e) => handlePress(e)} className="inputField" placeholder="Type todo..." type="text" onChange={e => setInput(e.target.value)} value={input} />
-          <button type="button" onClick={handleClick}>ADD</button>
-        </div>
-        <TodoList updateTodo={updateTodo} checkedTodo={checkedTodo} todolist={todolist} />
-        <div className="btn-action" style={{display: 'flex'}}>
-          <button onClick={clearCheckedTodo}>Clear completed</button>
-        </div>
-      </div>
+    <div
+      className="App"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Content style={{ width: "600px", marginTop: "50px" }}>
+        <h1>TODO LIST</h1>
+        <Content>
+          <div style={{ display: "flex" }}>
+            <Input
+              onKeyPress={(e) => handlePress(e)}
+              placeholder="Type todo..."
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+              className="inputField"
+            />
+            <Button
+              onClick={handleClick}
+              type="primary"
+              style={{ marginLeft: "10px" }}
+              disabled={input === "" ? true : false}
+            >
+              ADD
+            </Button>
+          </div>
+        </Content>
+        <Content style={{ marginTop: "15px" }}>
+          <TodoList />
+          <Button
+            disabled={
+              todoList.filter((todo) => todo.isCompleted).length > 0
+                ? false
+                : true
+            }
+            danger
+            type="primary"
+            onClick={clearCheckedTodo}
+          >
+            Clear completed todo
+          </Button>
+        </Content>
+      </Content>
     </div>
   );
 }

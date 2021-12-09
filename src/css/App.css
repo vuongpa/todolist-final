@@ -1,103 +1,44 @@
-.App {
-    color: red;
+input.input_todo_edit {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: "tnum", "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 0;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  transition: all 0.3s;
+  pointer-events: initial;
 }
-.inputText {
-    position: relative;
-}
-.inputText input {
-    height: 34px;
-    width: 250px;
-    padding-left: 10px;
-    outline: none;
-    border-radius: 7px;
-    border: 1px solid #d6d6d6;
-    transition: .17s linear;
-}
-.inputText input:focus {
-    border-color: #919191;
-    background: #d6d6d6;
-}
-.inputText button {
-    cursor: pointer;
-    height: 34px;
-    outline: none;
-    margin-left: 10px;
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    background: #28a745;
-    border: 1px solid #28a745;
-    border-radius: 6px;
-    width: 50px;
-    font-weight: 600;
-    color: #fff;
-    transition: .17s linear;
-}
-.inputText button:hover {
-    background: #117a29;
-}
-.App li {
-    position: relative;
-    padding: 4px 0;
-}
-.App li button {
-    width: 22px;
-    height: 22px;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    background: transparent;
-    outline: none;
-    border-radius: 50%;
-    border: 1px solid #d6d6d6;
-    color: #28a745;
-    transition: .17s linear;
-    border: none;
-    outline: none;
-}
-.App li button i {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    left: 50%;
-}
-.App li button:hover {
-    color: #117a29;
-    /* background: #f0f0f0; */
-}
-.btn-edit {
-    right: 25px !important;
-}
-.btn-action button {
-    cursor: pointer;
-    border: none;
-    border-radius: 7px;
-    height: 34px;
-    padding: 0 10px;
-    transition: all .17s linear;
-}
-.btn-action button:hover {
-    background: #d6d6d6;
-}
-.input-todo {
-    border: none;
-    outline: none;
-    height: 29px;
-    width: 150px;
-    padding-left: 10px;
-    padding-top: 2px;
-    padding-bottom: 1px;
-    pointer-events: none !important;
-}
-.input-todo-edit {
-    height: 29px;
-    width: 150px;
-    padding-left: 10px;
-    outline: none;
-    border-radius: 7px;
-    border: 1px solid #d6d6d6;
-    pointer-events: initial !important;
-    /* transition: .1s linear; */
+input.input_todo {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: "tnum", "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 0;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: all 0.3s;
+  pointer-events: none;
 }
